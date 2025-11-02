@@ -64,7 +64,7 @@ app.post('/api/scores', async (req, res) => {
         await newScore.save();
 
         // 2. Logica per mantenere solo gli ultimi 5 record
-        const MAX_RECORDS = 5;
+        const MAX_RECORDS = 10;
         const count = await GameScore.countDocuments();
 
         if (count > MAX_RECORDS) {
@@ -108,4 +108,5 @@ app.get('/api/scores', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server avviato sulla porta ${PORT}`);
 });
+
 
