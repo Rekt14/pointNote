@@ -84,7 +84,28 @@ app.post('/api/scores', async (req, res) => {
     }
 });
 
+// ====================================================================
+// Endpoint GET per recuperare gli ultimi 5 punteggi salvati
+// ====================================================================
+
+app.get('/api/scores', async (req, res) => {
+    try {
+        // Trova i 5 record più recenti (sort: -1 = decrescente per timestamp)
+        const recentScores = await GameScore.find({})
+            .sort({ timestamp: -1 }) 
+            .limit(5); 
+
+        // Invia i record al frontend
+        res.status(200).json(recentScores);
+
+    } catch (error) {
+        console.error('❌ Errore nel recupero dei punteggi:', error);
+        res.status(500).send({ message: 'Errore interno del server nel recupero dati.' });
+    }
+});
+
 // Avvio del Server
 app.listen(PORT, () => {
     console.log(`Server avviato sulla porta ${PORT}`);
 });
+
